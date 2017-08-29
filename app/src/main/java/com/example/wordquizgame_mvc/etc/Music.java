@@ -5,7 +5,7 @@ import android.media.MediaPlayer;
 
 public class Music {
 
-    private static final String TAG = Music.class.getSimpleName();
+    private static final String TAG = Music.class.getName();
 
     private static MediaPlayer mPlayer = null;
 

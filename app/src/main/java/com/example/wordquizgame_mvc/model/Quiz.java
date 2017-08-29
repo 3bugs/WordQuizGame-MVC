@@ -1,9 +1,14 @@
 package com.example.wordquizgame_mvc.model;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.wordquizgame_mvc.db.DatabaseHelper;
+
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 import static com.example.wordquizgame_mvc.etc.Constants.DIFFICULTY_EASY;
@@ -16,7 +21,7 @@ import static com.example.wordquizgame_mvc.etc.Constants.DIFFICULTY_MEDIUM;
 
 public class Quiz {
 
-    private static final String TAG = Quiz.class.getSimpleName();
+    private static final String TAG = Quiz.class.getName();
 
     private static final int NUM_QUESTIONS_PER_QUIZ = 3;
 
@@ -25,13 +30,14 @@ public class Quiz {
     private int mDifficulty;
     private int mNumChoices;
 
+    private int mCurrentQuestionNumber;
     private int mScore;
     private int mTotalGuesses;
 
     private ArrayList<String> mFileNameList;
     private ArrayList<String> mQuizWordList = new ArrayList<>();
 
-    private Random mRandom = new Random();
+    private SQLiteDatabase mDatabase;
 
     public Quiz(Context context, ArrayList<String> fileNameList, int difficulty) {
         mContext = context;
@@ -50,16 +56,21 @@ public class Quiz {
                 break;
         }
 
-        startQuiz();
+        DatabaseHelper dbHelper = new DatabaseHelper(mContext);
+        mDatabase = dbHelper.getWritableDatabase();
+
+        initQuiz();
     }
 
-    private void startQuiz() {
+    private void initQuiz() {
         mScore = 0;
         mTotalGuesses = 0;
         mQuizWordList.clear();
 
+        Random random = new Random();
+
         while (mQuizWordList.size() < NUM_QUESTIONS_PER_QUIZ) {
-            int randomIndex = mRandom.nextInt(mFileNameList.size());
+            int randomIndex = random.nextInt(mFileNameList.size());
             String fileName = mFileNameList.get(randomIndex);
 
             if (!mQuizWordList.contains(fileName)) {
@@ -67,9 +78,8 @@ public class Quiz {
             }
         }
 
-        Log.i(TAG, "***** รายชื่อไฟล์คำถามที่สุ่มได้");
-        for (String f : mQuizWordList) {
-            Log.i(TAG, f);
+        for (int i = 0; i < mQuizWordList.size(); i++) {
+            Log.i(TAG, "Random question word #" + i + ": " + mQuizWordList.get(i));
         }
     }
 
@@ -84,14 +94,42 @@ public class Quiz {
                 questionFileName,
                 mNumChoices
         );
+        mCurrentQuestionNumber++;
         return question;
+    }
+
+    public int getCurrentQuestionNumber() {
+        return mCurrentQuestionNumber;
+    }
+
+    public int getNumQuestionsPerQuiz() {
+        return NUM_QUESTIONS_PER_QUIZ;
     }
 
     public int getScore() {
         return mScore;
     }
 
+    public void addScore() {
+        mScore++;
+    }
+
     public int getTotalGuesses() {
         return mTotalGuesses;
+    }
+
+    public void addTotalGuesses() {
+        mTotalGuesses++;
+    }
+
+    public double getPercentScore() {
+        return 100 * mScore / (double) mTotalGuesses;
+    }
+
+    public void savePercentScoreToDatabase() {
+        ContentValues cv = new ContentValues();
+        cv.put(DatabaseHelper.COL_SCORE, String.format(Locale.US, "%.1f", getPercentScore()));
+        cv.put(DatabaseHelper.COL_DIFFICULTY, mDifficulty);
+        mDatabase.insert(DatabaseHelper.TABLE_NAME, null, cv);
     }
 }

@@ -24,7 +24,7 @@ import static com.example.wordquizgame_mvc.etc.Constants.KEY_DIFFICULTY;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

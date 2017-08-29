@@ -16,24 +16,26 @@ import java.util.Random;
 
 public class Question {
 
-    private static final String TAG = Question.class.getSimpleName();
+    private static final String TAG = Question.class.getName();
 
     private Context mContext;
 
     private int mNumChoices;
     private String mFileName;
+    private String mAnswer;
     private Drawable mImageDrawable;
 
     private ArrayList<String> mFileNameList;
     private ArrayList<String> mChoiceWordList = new ArrayList<>();
-
-    private Random mRandom = new Random();
 
     public Question(Context context, ArrayList<String> fileNameList, String fileName, int numChoices) {
         mContext = context;
         mFileNameList = fileNameList;
         mFileName = fileName;
         mNumChoices = numChoices;
+
+        mAnswer = getWord(mFileName);
+        Log.i(TAG, "Answer word: " + mAnswer);
 
         loadQuestionImage();
         prepareChoiceWords();
@@ -53,6 +55,7 @@ public class Question {
         try {
             stream = am.open(filePath);
             mImageDrawable = Drawable.createFromStream(stream, null);
+            Log.i(TAG, "Loading image file OK: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
             Log.e(TAG, "Error loading image file: " + filePath);
@@ -63,8 +66,10 @@ public class Question {
         mChoiceWordList.clear();
         String answerWord = getWord(mFileName);
 
+        Random random = new Random();
+
         while (mChoiceWordList.size() < mNumChoices) {
-            int randomIndex = mRandom.nextInt(mFileNameList.size());
+            int randomIndex = random.nextInt(mFileNameList.size());
             String randomWord = getWord(mFileNameList.get(randomIndex));
 
             if (!mChoiceWordList.contains(randomWord) && !answerWord.equals(randomWord)) {
@@ -72,12 +77,11 @@ public class Question {
             }
         }
 
-        int randomIndex = mRandom.nextInt(mChoiceWordList.size());
+        int randomIndex = random.nextInt(mChoiceWordList.size());
         mChoiceWordList.set(randomIndex, answerWord);
 
-        Log.i(TAG, "***** คำศัพท์ตัวเลือกที่สุ่มได้");
-        for (String w : mChoiceWordList) {
-            Log.i(TAG, w);
+        for (int i = 0; i < mChoiceWordList.size(); i++) {
+            Log.i(TAG, "Random choice #" + i + ": " + mChoiceWordList.get(i));
         }
     }
 
@@ -91,5 +95,13 @@ public class Question {
 
     public ArrayList<String> getChoiceWordList() {
         return mChoiceWordList;
+    }
+
+    public String getAnswer() {
+        return mAnswer;
+    }
+
+    public boolean checkAnswer(String guessWord) {
+        return mAnswer.equalsIgnoreCase(guessWord);
     }
 }
