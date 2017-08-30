@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/category_values"
+        android:entries="@array/category_titles"
+        android:entryValues="@array/category_values"
+        android:key="categories"
+        android:summary="เลือกหมวดคำศัพท์ที่ต้องการ"
+        android:title="หมวดคำศัพท์"/>
+
+    <!--
+        <com.promlert.bitcoinalert.view.ValidatingEditTextPreference
+            android:defaultValue="@string/default_btc_address"
+            android:key="btc_address"
+            android:summary="Please provide your BTC Address"
+            android:title="BTC Address"/>
+    -->
+
+    <Preference
+        android:key="btc_address"
+        android:title="BTC Address"/>
+
+    <Preference
+        android:key="manage_algorithms_and_workers"
+        android:summary="Manage algorithms &amp; workers for the current BTC address"
+        android:title="Manage Algorithms &amp; Workers">
+        <intent android:action="launch.settings.activity"/>
+    </Preference>
+
+</PreferenceScreen>

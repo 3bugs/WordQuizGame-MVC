@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="difficulty_labels">
+        <item name="easy">@string/easy_label</item>
+        <item name="medium">@string/medium_label</item>
+        <item name="hard">@string/hard_label</item>
+    </string-array>
+
+    <string-array name="category_titles">
+        <item>Animals</item>
+        <item>Body</item>
+        <item>Colors</item>
+        <item>Numbers</item>
+        <item>Objects</item>
+    </string-array>
+
+    <string-array name="category_values">
+        <item>animals</item>
+        <item>body</item>
+        <item>colors</item>
+        <item>numbers</item>
+        <item>objects</item>
+    </string-array>
+</resources>

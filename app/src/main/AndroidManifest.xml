@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -17,16 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".GameActivity"
             android:theme="@style/FullScreen">
         </activity>
-
         <activity
             android:name=".HighScoreActivity"
             android:label="@string/high_score_label"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings_label">
         </activity>
     </application>
 

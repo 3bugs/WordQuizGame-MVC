@@ -4,6 +4,7 @@
     <string name="app_title">เกมทายคำศัพท์\nภาษาอังกฤษ</string>
     <string name="play_game_label">เล่นเกม</string>
     <string name="high_score_label">คะแนนสูงสุด</string>
+    <string name="settings_label">ตั้งค่า</string>
 
     <string name="choose_difficulty_title">เลือกระดับความยาก</string>
     <string name="easy_label">ง่าย</string>
@@ -23,4 +24,10 @@
 
     <string name="action_settings">การตั้งค่า</string>
     <string name="no_data">ไม่มีข้อมูล</string>
+
+    <string name="category_animals">สัตว์</string>
+    <string name="category_body">ร่างกาย</string>
+    <string name="category_colors">สี</string>
+    <string name="category_numbers">ตัวเลข</string>
+    <string name="category_objects">สิ่งของ</string>
 </resources>

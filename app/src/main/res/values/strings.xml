@@ -1,19 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Word Quiz Game</string>
     <string name="app_title">Word Quiz Game</string>
     <string name="play_game_label">Play Game</string>
     <string name="high_score_label">High Score</string>
+    <string name="settings_label">Settings</string>
 
     <string name="choose_difficulty_title">Choose Difficulty Level</string>
     <string name="easy_label">Easy</string>
     <string name="medium_label">Medium</string>
     <string name="hard_label">Hard</string>
-
-    <string-array name="difficulty_labels">
-        <item name="easy">@string/easy_label</item>
-        <item name="medium">@string/medium_label</item>
-        <item name="hard">@string/hard_label</item>
-    </string-array>
 
     <string name="question_number_label">Question %1$d of %2$d</string>
     <string name="guess_label">Guess the Word</string>
@@ -28,4 +24,10 @@
 
     <string name="action_settings">Settings</string>
     <string name="no_data">No data</string>
+
+    <string name="category_animals">Animals</string>
+    <string name="category_body">Body</string>
+    <string name="category_colors">Colors</string>
+    <string name="category_numbers">Numbers</string>
+    <string name="category_objects">Objects</string>
 </resources>
