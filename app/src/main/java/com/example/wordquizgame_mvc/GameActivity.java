@@ -47,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler();
     private Animation mShakeAnimation;
+    private Music mMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class GameActivity extends AppCompatActivity {
         mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
         mShakeAnimation.setRepeatCount(3);
 
+        mMusic = new Music(this, R.raw.game);
+
         setupViews();
         getImageFileNames();
         newGame();
@@ -67,13 +70,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Music.play(this, R.raw.game);
+        mMusic.play();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Music.stop();
+        mMusic.stop();
     }
 
     private void setupViews() {

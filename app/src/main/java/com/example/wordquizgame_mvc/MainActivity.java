@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
 
+    private Music mMusic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        mMusic = new Music(this, R.raw.main);
     }
 
     private void showPlainChooseDifficultyDialog() {
@@ -160,14 +164,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.i(TAG, "onStart");
-        Music.play(this, R.raw.main);
+        mMusic.play();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.i(TAG, "onStop");
-        Music.stop();
+        mMusic.stop();
     }
 
     @Override
