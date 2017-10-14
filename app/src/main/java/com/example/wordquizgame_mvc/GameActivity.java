@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.wordquizgame_mvc.databinding.ActivityGameBinding;
 import com.example.wordquizgame_mvc.etc.Music;
 import com.example.wordquizgame_mvc.model.Question;
 import com.example.wordquizgame_mvc.model.Quiz;
@@ -34,10 +36,7 @@ public class GameActivity extends AppCompatActivity {
 
     private static final String TAG = GameActivity.class.getName();
 
-    private TextView mQuestionNumberTextView;
-    private ImageView mQuestionImageView;
-    private TextView mFeedbackTextView;
-    private TableLayout mButtonTableLayout;
+    private ActivityGameBinding mBinding;
 
     private ArrayList<String> mFileNameList = new ArrayList<>();
 
@@ -52,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_game);
 
         Intent intent = getIntent();
         mDifficulty = intent.getIntExtra(KEY_DIFFICULTY, 0);
@@ -62,7 +61,6 @@ public class GameActivity extends AppCompatActivity {
 
         mMusic = new Music(this, R.raw.game);
 
-        setupViews();
         getImageFileNames();
         newGame();
     }
@@ -77,13 +75,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mMusic.stop();
-    }
-
-    private void setupViews() {
-        mQuestionNumberTextView = (TextView) findViewById(R.id.question_number_text_view);
-        mQuestionImageView = (ImageView) findViewById(R.id.question_image_view);
-        mFeedbackTextView = (TextView) findViewById(R.id.answer_text_view);
-        mButtonTableLayout = (TableLayout) findViewById(R.id.button_table_layout);
     }
 
     private void getImageFileNames() {
@@ -147,30 +138,30 @@ public class GameActivity extends AppCompatActivity {
                             })
                     .show();
         } else {
-            mFeedbackTextView.setText(null);
+            mBinding.answerTextView.setText(null);
 
             String msg = getString(
                     R.string.question_number_label,
                     mQuiz.getCurrentQuestionNumber(),
                     mQuiz.getNumQuestionsPerQuiz()
             );
-            mQuestionNumberTextView.setText(msg);
+            mBinding.questionNumberTextView.setText(msg);
 
-            mQuestionImageView.setImageDrawable(mCurrentQuestion.getImageDrawable());
+            mBinding.questionImageView.setImageDrawable(mCurrentQuestion.getImageDrawable());
             createChoiceButtons();
         }
     }
 
     private void createChoiceButtons() {
-        for (int row = 0; row < mButtonTableLayout.getChildCount(); row++) {
-            TableRow tr = (TableRow) mButtonTableLayout.getChildAt(row);
+        for (int row = 0; row < mBinding.buttonTableLayout.getChildCount(); row++) {
+            TableRow tr = (TableRow) mBinding.buttonTableLayout.getChildAt(row);
             tr.removeAllViews();
         }
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         for (int row = 0; row < mCurrentQuestion.getChoiceWordList().size() / 2; row++) {
-            TableRow tr = (TableRow) mButtonTableLayout.getChildAt(row);
+            TableRow tr = (TableRow) mBinding.buttonTableLayout.getChildAt(row);
 
             for (int column = 0; column < 2; column++) {
                 Button guessButton = (Button) inflater.inflate(R.layout.guess_button, tr, false);
@@ -201,8 +192,8 @@ public class GameActivity extends AppCompatActivity {
             mp.start();
 
             String msg = guessWord + " " + getString(R.string.correct_label);
-            mFeedbackTextView.setText(msg);
-            mFeedbackTextView.setTextColor(
+            mBinding.answerTextView.setText(msg);
+            mBinding.answerTextView.setTextColor(
                     ContextCompat.getColor(this, android.R.color.holo_green_dark)
             );
 
@@ -224,18 +215,18 @@ public class GameActivity extends AppCompatActivity {
             mp.start();
 
             String msg = getString(R.string.incorrect_label);
-            mFeedbackTextView.setText(msg);
-            mFeedbackTextView.setTextColor(
+            mBinding.answerTextView.setText(msg);
+            mBinding.answerTextView.setTextColor(
                     ContextCompat.getColor(this, android.R.color.holo_red_dark)
             );
 
-            mQuestionImageView.startAnimation(mShakeAnimation);
+            mBinding.questionImageView.startAnimation(mShakeAnimation);
         }
     }
 
     private void disableAllButtons() {
-        for (int row = 0; row < mButtonTableLayout.getChildCount(); row++) {
-            TableRow tr = (TableRow) mButtonTableLayout.getChildAt(row);
+        for (int row = 0; row < mBinding.buttonTableLayout.getChildCount(); row++) {
+            TableRow tr = (TableRow) mBinding.buttonTableLayout.getChildAt(row);
 
             for (int column = 0; column < tr.getChildCount(); column++) {
                 Button b = (Button) tr.getChildAt(column);

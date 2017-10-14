@@ -3,6 +3,7 @@ package com.example.wordquizgame_mvc;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wordquizgame_mvc.databinding.ActivityMainBinding;
+import com.example.wordquizgame_mvc.databinding.DifficultyRowBinding;
 import com.example.wordquizgame_mvc.etc.Music;
 
 import static com.example.wordquizgame_mvc.etc.Constants.KEY_DIFFICULTY;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
 
+    private ActivityMainBinding mBinding;
+
     private Music mMusic;
 
     @Override
@@ -34,10 +39,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate");
 
-        setContentView(R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        Button playGameButton = (Button) findViewById(R.id.play_game_button);
-        playGameButton.setOnClickListener(new View.OnClickListener() {
+        mBinding.playGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Hello log");
@@ -54,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button highScoreButton = (Button) findViewById(R.id.high_score_button);
-        highScoreButton.setOnClickListener(new View.OnClickListener() {
+        mBinding.highScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, HighScoreActivity.class);
@@ -110,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static class DifficultyOptionsAdapter extends ArrayAdapter<String> {
 
+        private DifficultyRowBinding diffBinding;
+
         private Context mContext;
         private int mItemLayoutId;
         private String[] mDifficulties;
@@ -130,18 +135,17 @@ public class MainActivity extends AppCompatActivity {
 
             View row = inflater.inflate(mItemLayoutId, parent, false);
 
-            TextView difficultyTextView = (TextView) row.findViewById(R.id.difficulty_text_view);
-            ImageView difficultyImageView = (ImageView) row.findViewById(R.id.difficulty_image_view);
+            diffBinding = DataBindingUtil.bind(row);
 
             String diff = mDifficulties[position];
-            difficultyTextView.setText(diff);
+            diffBinding.difficultyTextView.setText(diff);
 
             if (diff.equals(mContext.getString(R.string.easy_label))) {
-                difficultyImageView.setImageResource(R.drawable.dog_easy);
+                diffBinding.difficultyImageView.setImageResource(R.drawable.dog_easy);
             } else if (diff.equals(mContext.getString(R.string.medium_label))) {
-                difficultyImageView.setImageResource(R.drawable.dog_medium);
+                diffBinding.difficultyImageView.setImageResource(R.drawable.dog_medium);
             } else if (diff.equals(mContext.getString(R.string.hard_label))) {
-                difficultyImageView.setImageResource(R.drawable.dog_hard);
+                diffBinding.difficultyImageView.setImageResource(R.drawable.dog_hard);
             }
 
             return row;

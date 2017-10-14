@@ -1,72 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".HighScoreActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background_color"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".HighScoreActivity">
 
-        <RadioGroup
-            android:id="@+id/difficulty_radio_group"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/background_color"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/difficulty_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <RadioButton
+                    android:id="@+id/easy_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="radio1"
+                    android:textAppearance="@android:style/TextAppearance.Medium" />
+
+                <RadioButton
+                    android:id="@+id/medium_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="radio2"
+                    android:textAppearance="@android:style/TextAppearance.Medium" />
+
+                <RadioButton
+                    android:id="@+id/hard_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="radio3"
+                    android:textAppearance="@android:style/TextAppearance.Medium" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <View style="@style/Divider" />
+
+        <ListView
+            android:id="@+id/high_score_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="36dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:text="@string/no_data"
+            android:textColor="#0080ff"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
-            <RadioButton
-                android:id="@+id/easy_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="radio1"
-                android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-            <RadioButton
-                android:id="@+id/medium_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="radio2"
-                android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-            <RadioButton
-                android:id="@+id/hard_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="radio3"
-                android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-        </RadioGroup>
     </LinearLayout>
-
-    <View style="@style/Divider"/>
-
-    <ListView
-        android:id="@+id/high_score_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"/>
-
-    <TextView
-        android:id="@+id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="36dp"
-        android:gravity="center"
-        android:text="@string/no_data"
-        android:textColor="#0080ff"
-        android:textSize="40sp"
-        android:textStyle="bold"/>
-
-</LinearLayout>
+</layout>

@@ -2,14 +2,14 @@ package com.example.wordquizgame_mvc;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
+import com.example.wordquizgame_mvc.databinding.ActivityHighScoreBinding;
 import com.example.wordquizgame_mvc.db.DatabaseHelper;
 
 import java.util.Arrays;
@@ -18,35 +18,30 @@ public class HighScoreActivity extends AppCompatActivity {
 
     private static final String TAG = HighScoreActivity.class.getName();
 
-    private ListView mHighScoreListView;
+    private ActivityHighScoreBinding mBinding;
+
     private SQLiteDatabase mDatabase;
     private SimpleCursorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_high_score);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_high_score);
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         mDatabase = dbHelper.getWritableDatabase();
 
-        mHighScoreListView = (ListView) findViewById(R.id.high_score_list_view);
-        TextView emptyView = (TextView) findViewById(R.id.empty);
-        mHighScoreListView.setEmptyView(emptyView);
+        mBinding.highScoreListView.setEmptyView(mBinding.empty);
 
         setListAdapter();
 
         // กำหนดข้อความปุ่มเรดิโอ
-        RadioButton easyRadioButton = (RadioButton) findViewById(R.id.easy_radio_button);
-        easyRadioButton.setText(R.string.easy_label);
-        RadioButton mediumRadioButton = (RadioButton) findViewById(R.id.medium_radio_button);
-        mediumRadioButton.setText(R.string.medium_label);
-        RadioButton hardRadioButton = (RadioButton) findViewById(R.id.hard_radio_button);
-        hardRadioButton.setText(R.string.hard_label);
+        mBinding.easyRadioButton.setText(R.string.easy_label);
+        mBinding.mediumRadioButton.setText(R.string.medium_label);
+        mBinding.hardRadioButton.setText(R.string.hard_label);
 
         // กำหนด Checked Change Listener ให้กับ RadioGroup
-        RadioGroup difficultyRadioGroup = (RadioGroup) findViewById(R.id.difficulty_radio_group);
-        difficultyRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mBinding.difficultyRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 String[] diffLabels = getResources().getStringArray(R.array.difficulty_labels);
@@ -57,7 +52,7 @@ public class HighScoreActivity extends AppCompatActivity {
         });
 
         // เลือกปุ่มเรดิโอ "ง่าย" เป็นค่าเริ่มต้น
-        easyRadioButton.setChecked(true);
+        mBinding.easyRadioButton.setChecked(true);
     }
 
     void setListAdapter() {
@@ -69,7 +64,7 @@ public class HighScoreActivity extends AppCompatActivity {
         };
 
         mAdapter = new SimpleCursorAdapter(this, R.layout.high_score_row, null, columns, views, 0);
-        mHighScoreListView.setAdapter(mAdapter);
+        mBinding.highScoreListView.setAdapter(mAdapter);
     }
 
     void showHighScoreByDifficulty(int difficulty) {
