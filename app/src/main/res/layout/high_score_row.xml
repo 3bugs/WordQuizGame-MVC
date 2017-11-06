@@ -5,13 +5,15 @@
               android:layout_height="match_parent"
               android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:padding="8dp">
+              android:padding="8dp"
+              tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/trophy_image_view"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/trophy"/>
+        android:src="@drawable/trophy"
+        tools:ignore="ContentDescription"/>
 
     <TextView
         android:id="@+id/score_text_view"

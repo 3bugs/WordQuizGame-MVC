@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -114,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
         private int mItemLayoutId;
         private String[] mDifficulties;
 
-        public DifficultyOptionsAdapter(Context context, int itemLayoutId,
-                                        String[] difficulties) {
+        DifficultyOptionsAdapter(Context context, int itemLayoutId, String[] difficulties) {
             super(context, itemLayoutId, difficulties);
 
             this.mContext = context;
@@ -123,15 +124,20 @@ public class MainActivity extends AppCompatActivity {
             this.mDifficulties = difficulties;
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater)
                     mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View row = inflater.inflate(mItemLayoutId, parent, false);
+            View itemView = convertView;
+            if (itemView == null) {
+                assert inflater != null;
+                itemView = inflater.inflate(mItemLayoutId, parent, false);
+            }
 
-            TextView difficultyTextView = (TextView) row.findViewById(R.id.difficulty_text_view);
-            ImageView difficultyImageView = (ImageView) row.findViewById(R.id.difficulty_image_view);
+            TextView difficultyTextView = (TextView) itemView.findViewById(R.id.difficulty_text_view);
+            ImageView difficultyImageView = (ImageView) itemView.findViewById(R.id.difficulty_image_view);
 
             String diff = mDifficulties[position];
             difficultyTextView.setText(diff);
@@ -144,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 difficultyImageView.setImageResource(R.drawable.dog_hard);
             }
 
-            return row;
+            return itemView;
         }
     }
 

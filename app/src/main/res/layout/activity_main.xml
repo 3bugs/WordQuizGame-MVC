@@ -26,10 +26,11 @@
     <ImageView
         android:id="@+id/logo_image_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
         android:layout_weight="1"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/logo"
+        tools:ignore="ContentDescription"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="@string/play_game_label"/>
+            android:text="@string/play_game_label"
+            tools:ignore="ButtonStyle"/>
 
         <Button
             android:id="@+id/high_score_button"
@@ -50,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="@string/high_score_label"/>
+            android:text="@string/high_score_label"
+            tools:ignore="ButtonStyle"/>
 
     </LinearLayout>
 </LinearLayout>

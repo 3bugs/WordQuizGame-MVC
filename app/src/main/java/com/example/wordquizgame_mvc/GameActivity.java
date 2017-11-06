@@ -3,7 +3,6 @@ package com.example.wordquizgame_mvc;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,9 +24,6 @@ import com.example.wordquizgame_mvc.etc.Music;
 import com.example.wordquizgame_mvc.model.Question;
 import com.example.wordquizgame_mvc.model.Quiz;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import static com.example.wordquizgame_mvc.etc.Constants.KEY_DIFFICULTY;
 
 public class GameActivity extends AppCompatActivity {
@@ -37,9 +33,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView mQuestionNumberTextView;
     private ImageView mQuestionImageView;
     private TextView mFeedbackTextView;
-    private TableLayout mButtonTableLayout;
-
-    private ArrayList<String> mFileNameList = new ArrayList<>();
+    private TableLayout mChoicesTableLayout;
 
     private int mDifficulty;
     private Quiz mQuiz;
@@ -63,7 +57,6 @@ public class GameActivity extends AppCompatActivity {
         mMusic = new Music(this, R.raw.game);
 
         setupViews();
-        getImageFileNames();
         newGame();
     }
 
@@ -82,36 +75,13 @@ public class GameActivity extends AppCompatActivity {
     private void setupViews() {
         mQuestionNumberTextView = (TextView) findViewById(R.id.question_number_text_view);
         mQuestionImageView = (ImageView) findViewById(R.id.question_image_view);
-        mFeedbackTextView = (TextView) findViewById(R.id.answer_text_view);
-        mButtonTableLayout = (TableLayout) findViewById(R.id.button_table_layout);
-    }
-
-    private void getImageFileNames() {
-        String[] categories = new String[]{"animals", "body", "colors", "numbers", "objects"};
-
-        AssetManager am = getAssets();
-        for (String c : categories) {
-            try {
-                String[] fileNames = am.list(c);
-
-                for (String f : fileNames) {
-                    mFileNameList.add(f.replace(".png", ""));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e(TAG, "Error listing file name in " + c);
-            }
-        }
-
-        for (int i = 0; i < mFileNameList.size(); i++) {
-            Log.i(TAG, "Image file name #" + i + ": " + mFileNameList.get(i));
-        }
+        mFeedbackTextView = (TextView) findViewById(R.id.feedback_text_view);
+        mChoicesTableLayout = (TableLayout) findViewById(R.id.choices_table_layout);
     }
 
     private void newGame() {
         mQuiz = new Quiz(
                 this,
-                mFileNameList,
                 mDifficulty
         );
         loadNextQuestion();
@@ -162,19 +132,20 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void createChoiceButtons() {
-        for (int row = 0; row < mButtonTableLayout.getChildCount(); row++) {
-            TableRow tr = (TableRow) mButtonTableLayout.getChildAt(row);
+        for (int row = 0; row < mChoicesTableLayout.getChildCount(); row++) {
+            TableRow tr = (TableRow) mChoicesTableLayout.getChildAt(row);
             tr.removeAllViews();
         }
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         for (int row = 0; row < mCurrentQuestion.getChoiceWordList().size() / 2; row++) {
-            TableRow tr = (TableRow) mButtonTableLayout.getChildAt(row);
+            TableRow tr = (TableRow) mChoicesTableLayout.getChildAt(row);
 
             for (int column = 0; column < 2; column++) {
+                assert inflater != null;
                 Button guessButton = (Button) inflater.inflate(R.layout.guess_button, tr, false);
-                guessButton.setText(mCurrentQuestion.getChoiceWordList().get(row * 2 + column));
+                guessButton.setText(mCurrentQuestion.getChoiceWordList().get(row * 2 + column).text);
                 guessButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -187,7 +158,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void submitGuess(Button guessButton) {
-        Log.i(TAG, "You selected " + guessButton.getText().toString());
+        Log.i(TAG, "เลือกตอบ " + guessButton.getText().toString());
 
         mQuiz.addTotalGuesses();
         String guessWord = guessButton.getText().toString();
@@ -234,8 +205,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void disableAllButtons() {
-        for (int row = 0; row < mButtonTableLayout.getChildCount(); row++) {
-            TableRow tr = (TableRow) mButtonTableLayout.getChildAt(row);
+        for (int row = 0; row < mChoicesTableLayout.getChildCount(); row++) {
+            TableRow tr = (TableRow) mChoicesTableLayout.getChildAt(row);
 
             for (int column = 0; column < tr.getChildCount(); column++) {
                 Button b = (Button) tr.getChildAt(column);

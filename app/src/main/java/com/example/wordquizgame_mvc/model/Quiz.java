@@ -9,15 +9,10 @@ import com.example.wordquizgame_mvc.db.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Random;
 
 import static com.example.wordquizgame_mvc.etc.Constants.DIFFICULTY_EASY;
 import static com.example.wordquizgame_mvc.etc.Constants.DIFFICULTY_HARD;
 import static com.example.wordquizgame_mvc.etc.Constants.DIFFICULTY_MEDIUM;
-
-/**
- * Created by Promlert on 2017-08-25.
- */
 
 public class Quiz {
 
@@ -34,14 +29,11 @@ public class Quiz {
     private int mScore;
     private int mTotalGuesses;
 
-    private ArrayList<String> mFileNameList;
-    private ArrayList<String> mQuizWordList = new ArrayList<>();
-
+    private ArrayList<Word> mQuestionWordList = new ArrayList<>();
     private SQLiteDatabase mDatabase;
 
-    public Quiz(Context context, ArrayList<String> fileNameList, int difficulty) {
+    public Quiz(Context context, int difficulty) {
         mContext = context;
-        mFileNameList = fileNameList;
         mDifficulty = difficulty;
 
         switch (mDifficulty) {
@@ -65,33 +57,24 @@ public class Quiz {
     private void initQuiz() {
         mScore = 0;
         mTotalGuesses = 0;
-        mQuizWordList.clear();
 
-        Random random = new Random();
+        WordLibrary wl = WordLibrary.getInstance(mContext);
+        mQuestionWordList = wl.getRandomQuestionWordList(NUM_QUESTIONS_PER_QUIZ);
 
-        while (mQuizWordList.size() < NUM_QUESTIONS_PER_QUIZ) {
-            int randomIndex = random.nextInt(mFileNameList.size());
-            String fileName = mFileNameList.get(randomIndex);
-
-            if (!mQuizWordList.contains(fileName)) {
-                mQuizWordList.add(fileName);
-            }
-        }
-
-        for (int i = 0; i < mQuizWordList.size(); i++) {
-            Log.i(TAG, "Random question word #" + i + ": " + mQuizWordList.get(i));
+        Log.i(TAG, "----------");
+        for (int i = 0; i < mQuestionWordList.size(); i++) {
+            Log.i(TAG, "Random question word #" + i + ": " + mQuestionWordList.get(i).text);
         }
     }
 
     public Question nextQuestion() {
-        if (mQuizWordList.isEmpty()) {
+        if (mQuestionWordList.isEmpty()) {
             return null;
         }
-        String questionFileName = mQuizWordList.remove(0);
+        Word questionWord = mQuestionWordList.remove(0);
         Question question = new Question(
                 mContext,
-                mFileNameList,
-                questionFileName,
+                questionWord,
                 mNumChoices
         );
         mCurrentQuestionNumber++;

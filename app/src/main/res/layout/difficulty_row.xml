@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:padding="8dp">
+              android:padding="8dp"
+              tools:ignore="UseCompoundDrawables">
 
     <TextView
         android:id="@+id/difficulty_text_view"
@@ -26,6 +27,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:src="@drawable/dog_easy"/>
+        android:src="@drawable/dog_easy"
+        tools:ignore="ContentDescription"/>
 
 </LinearLayout>

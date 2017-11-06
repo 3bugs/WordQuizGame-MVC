@@ -7,7 +7,8 @@
               android:gravity="center"
               android:orientation="vertical"
               android:padding="16dp"
-              tools:context=".GameActivity">
+              tools:context=".GameActivity"
+              tools:ignore="UselessLeaf">
 
     <TextView
         android:id="@+id/title_text_view"
@@ -34,7 +35,8 @@
         android:layout_width="250dp"
         android:layout_height="150dp"
         android:layout_marginBottom="28dp"
-        android:layout_marginTop="28dp"/>
+        android:layout_marginTop="28dp"
+        android:contentDescription="@string/question_image_description"/>
 
     <TextView
         android:id="@+id/guess_label_text_view"
@@ -46,7 +48,7 @@
         android:textSize="20sp"/>
 
     <TableLayout
-        android:id="@+id/button_table_layout"
+        android:id="@+id/choices_table_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -71,7 +73,7 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/answer_text_view"
+        android:id="@+id/feedback_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="28sp"

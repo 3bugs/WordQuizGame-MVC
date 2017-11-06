@@ -8,11 +8,6 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Random;
-
-/**
- * Created by Promlert on 2017-08-25.
- */
 
 public class Question {
 
@@ -21,87 +16,55 @@ public class Question {
     private Context mContext;
 
     private int mNumChoices;
-    private String mFileName;
-    private String mAnswer;
+    private Word mQuestionWord;
     private Drawable mImageDrawable;
 
-    private ArrayList<String> mFileNameList;
-    private ArrayList<String> mChoiceWordList = new ArrayList<>();
+    private ArrayList<Word> mChoiceWordList = new ArrayList<>();
 
-    public Question(Context context, ArrayList<String> fileNameList, String fileName, int numChoices) {
+    Question(Context context, Word questionWord, int numChoices) {
         mContext = context;
-        mFileNameList = fileNameList;
-        mFileName = fileName;
+        mQuestionWord = questionWord;
         mNumChoices = numChoices;
 
-        mAnswer = getWord(mFileName);
-        Log.i(TAG, "Answer word: " + mAnswer);
+        Log.i(TAG, "----------");
+        Log.i(TAG, "Question word: " + mQuestionWord.text);
 
         loadQuestionImage();
         prepareChoiceWords();
     }
 
     private void loadQuestionImage() {
-        String category = mFileName.substring(
-                0,
-                mFileName.indexOf('-')
-        );
-
-        String filePath = category + "/" + mFileName + ".png";
-
         AssetManager am = mContext.getAssets();
         InputStream stream;
 
         try {
-            stream = am.open(filePath);
+            stream = am.open(mQuestionWord.imageFilePath);
             mImageDrawable = Drawable.createFromStream(stream, null);
-            Log.i(TAG, "Loading image file OK: " + filePath);
+            Log.i(TAG, "โหลดไฟล์รูปภาพสำเร็จ: " + mQuestionWord.imageFilePath);
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(TAG, "Error loading image file: " + filePath);
+            Log.e(TAG, "เกิดปัญหาในการโหลดไฟล์รูปภาพ: " + mQuestionWord.imageFilePath);
         }
     }
 
     private void prepareChoiceWords() {
-        mChoiceWordList.clear();
-        String answerWord = getWord(mFileName);
-
-        Random random = new Random();
-
-        while (mChoiceWordList.size() < mNumChoices) {
-            int randomIndex = random.nextInt(mFileNameList.size());
-            String randomWord = getWord(mFileNameList.get(randomIndex));
-
-            if (!mChoiceWordList.contains(randomWord) && !answerWord.equals(randomWord)) {
-                mChoiceWordList.add(randomWord);
-            }
-        }
-
-        int randomIndex = random.nextInt(mChoiceWordList.size());
-        mChoiceWordList.set(randomIndex, answerWord);
+        WordLibrary wl = WordLibrary.getInstance(mContext);
+        mChoiceWordList = wl.getRandomChoiceWordList(mNumChoices, mQuestionWord);
 
         for (int i = 0; i < mChoiceWordList.size(); i++) {
-            Log.i(TAG, "Random choice #" + i + ": " + mChoiceWordList.get(i));
+            Log.i(TAG, "Random choice word #" + i + ": " + mChoiceWordList.get(i).text);
         }
-    }
-
-    private String getWord(String fileName) {
-        return fileName.substring(fileName.indexOf('-') + 1);
     }
 
     public Drawable getImageDrawable() {
         return mImageDrawable;
     }
 
-    public ArrayList<String> getChoiceWordList() {
+    public ArrayList<Word> getChoiceWordList() {
         return mChoiceWordList;
     }
 
-    public String getAnswer() {
-        return mAnswer;
-    }
-
     public boolean checkAnswer(String guessWord) {
-        return mAnswer.equalsIgnoreCase(guessWord);
+        return mQuestionWord.text.equals(guessWord);
     }
 }

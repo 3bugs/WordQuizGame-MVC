@@ -12,6 +12,7 @@
     <string name="hard_label">ยาก</string>
 
     <string name="question_number_label">คำถาม %1$d จาก %2$d</string>
+    <string name="question_image_description">ภาพคำถาม</string>
     <string name="guess_label">ภาพนี้คือคำอะไรเอ่ย</string>
     <string name="correct_label">ถูกต้องนะคร้าบบบ</string>
     <string name="incorrect_label">ยังไม่ถูก ลองใหม่นะครับ</string>
