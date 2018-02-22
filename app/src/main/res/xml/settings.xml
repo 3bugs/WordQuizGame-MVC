@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="prefScreen">
 
+    <!-- ตัวเลือกรูปแบบพยัญชนะ -->
+    <ListPreference
+        android:defaultValue="@string/upper_case_value"
+        android:entries="@array/char_case_labels"
+        android:entryValues="@array/char_case_values"
+        android:key="pref_char_case"
+        android:summary="@string/pref_char_case_summary"
+        android:title="@string/pref_char_case_title"/>
+
+    <!-- ตัวเลือกหมวดคำศัพท์ -->
     <MultiSelectListPreference
         android:defaultValue="@array/category_values"
-        android:entries="@array/category_titles"
+        android:entries="@array/category_labels"
         android:entryValues="@array/category_values"
-        android:key="categories"
-        android:summary="เลือกหมวดคำศัพท์ที่ต้องการ"
-        android:title="หมวดคำศัพท์"/>
-
-    <!--
-        <com.promlert.bitcoinalert.view.ValidatingEditTextPreference
-            android:defaultValue="@string/default_btc_address"
-            android:key="btc_address"
-            android:summary="Please provide your BTC Address"
-            android:title="BTC Address"/>
-    -->
-
-    <Preference
-        android:key="btc_address"
-        android:title="BTC Address"/>
-
-    <Preference
-        android:key="manage_algorithms_and_workers"
-        android:summary="Manage algorithms &amp; workers for the current BTC address"
-        android:title="Manage Algorithms &amp; Workers">
-        <intent android:action="launch.settings.activity"/>
-    </Preference>
+        android:key="pref_categories"
+        android:summary="@string/pref_categories_summary"
+        android:title="@string/pref_categories_title"/>
 
 </PreferenceScreen>

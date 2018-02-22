@@ -6,7 +6,10 @@
               android:background="@color/background_color"
               android:gravity="center"
               android:orientation="vertical"
-              android:padding="16dp"
+              android:paddingBottom="0dp"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:paddingTop="16dp"
               tools:context=".GameActivity"
               tools:ignore="UselessLeaf">
 
@@ -14,8 +17,8 @@
         android:id="@+id/title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="@string/app_title"
         android:textColor="@color/title_color"
@@ -26,24 +29,24 @@
         android:id="@+id/question_number_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:textSize="20sp"/>
 
     <ImageView
         android:id="@+id/question_image_view"
         android:layout_width="250dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="28dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/question_image_description"/>
 
     <TextView
         android:id="@+id/guess_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/guess_label"
         android:textSize="20sp"/>
 
@@ -76,7 +79,8 @@
         android:id="@+id/feedback_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="28sp"
+        android:padding="8dp"
+        android:textSize="24sp"
         android:textStyle="bold"/>
 
 </LinearLayout>

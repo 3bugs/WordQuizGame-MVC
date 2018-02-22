@@ -2,13 +2,16 @@ package com.example.wordquizgame_mvc.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 
 class WordLibrary {
 
@@ -16,7 +19,7 @@ class WordLibrary {
 
     @SuppressLint("StaticFieldLeak")
     private static WordLibrary sInstance;
-    private Context mApplicationContext;
+    private Context mContext;
     private final ArrayList<Word> mWordList = new ArrayList<>();
 
     static WordLibrary getInstance(Context context) {
@@ -28,14 +31,17 @@ class WordLibrary {
 
     private WordLibrary(Context context) {
         // Get application-level context to avoid memory leak
-        mApplicationContext = context.getApplicationContext();
-        loadImageFileNames();
+        mContext = context.getApplicationContext();
+        loadWords();
     }
 
-    private void loadImageFileNames() {
-        String[] categories = new String[]{"animals", "body", "colors", "numbers", "objects"};
+    private void loadWords() {
+        //String[] categories = new String[]{"animals", "body", "colors", "numbers", "objects"};
 
-        AssetManager am = mApplicationContext.getAssets();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        Set<String> categories = sharedPrefs.getStringSet("pref_categories", null);
+
+        AssetManager am = mContext.getAssets();
         for (String c : categories) {
             try {
                 String[] fileNames = am.list(c);

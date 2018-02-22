@@ -65,6 +65,6 @@ public class Question {
     }
 
     public boolean checkAnswer(String guessWord) {
-        return mQuestionWord.text.equals(guessWord);
+        return mQuestionWord.text.equalsIgnoreCase(guessWord);
     }
 }

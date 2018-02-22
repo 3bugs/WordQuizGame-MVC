@@ -6,14 +6,30 @@
         <item name="hard">@string/hard_label</item>
     </string-array>
 
-    <string-array name="category_titles">
-        <item>Animals</item>
-        <item>Body</item>
-        <item>Colors</item>
-        <item>Numbers</item>
-        <item>Objects</item>
+    <!-- ข้อความตัวเลือกรูปแบบพยัญชนะของคำศัพท์ -->
+    <string-array name="char_case_labels">
+        <item>@string/upper_case_label</item>
+        <item>@string/lower_case_label</item>
+        <item>@string/random_case_label</item>
     </string-array>
 
+    <!-- ค่าตัวเลือกรูปแบบพยัญชนะของคำศัพท์ -->
+    <string-array name="char_case_values">
+        <item>@string/upper_case_value</item>
+        <item>@string/lower_case_value</item>
+        <item>@string/random_case_value</item>
+    </string-array>
+
+    <!-- ข้อความตัวเลือกหมวดคำศัพท์ -->
+    <string-array name="category_labels">
+        <item>@string/category_animals</item>
+        <item>@string/category_body</item>
+        <item>@string/category_colors</item>
+        <item>@string/category_numbers</item>
+        <item>@string/category_objects</item>
+    </string-array>
+
+    <!-- ค่าตัวเลือกหมวดคำศัพท์ -->
     <string-array name="category_values">
         <item>animals</item>
         <item>body</item>

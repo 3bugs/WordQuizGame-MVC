@@ -3,9 +3,11 @@ package com.example.wordquizgame_mvc;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,8 @@ import android.widget.TextView;
 import com.example.wordquizgame_mvc.etc.Music;
 import com.example.wordquizgame_mvc.model.Question;
 import com.example.wordquizgame_mvc.model.Quiz;
+
+import java.util.Random;
 
 import static com.example.wordquizgame_mvc.etc.Constants.KEY_DIFFICULTY;
 
@@ -139,25 +143,51 @@ public class GameActivity extends AppCompatActivity {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        final Random random = new Random();
+        final Boolean randomBoolean = random.nextBoolean();
+
         for (int row = 0; row < mCurrentQuestion.getChoiceWordList().size() / 2; row++) {
             TableRow tr = (TableRow) mChoicesTableLayout.getChildAt(row);
 
             for (int column = 0; column < 2; column++) {
                 assert inflater != null;
-                Button guessButton = (Button) inflater.inflate(R.layout.guess_button, tr, false);
-                guessButton.setText(mCurrentQuestion.getChoiceWordList().get(row * 2 + column).text);
-                guessButton.setOnClickListener(new View.OnClickListener() {
+                Button choiceButton = (Button) inflater.inflate(R.layout.choice_button, tr, false);
+
+                String text = mCurrentQuestion.getChoiceWordList().get(row * 2 + column).text;
+                text = applyCase(text, randomBoolean);
+
+                choiceButton.setText(text);
+                choiceButton.setAllCaps(false);
+                choiceButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        submitGuess((Button) v);
+                        submitChoice((Button) v);
                     }
                 });
-                tr.addView(guessButton);
+                tr.addView(choiceButton);
             }
         }
     }
 
-    private void submitGuess(Button guessButton) {
+    private String applyCase(String text, boolean randomBoolean) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String prefCharCase = sharedPrefs.getString("pref_char_case", null);
+
+        if (getString(R.string.upper_case_value).equals(prefCharCase)) {
+            text = text.toUpperCase();
+        } else if (getString(R.string.lower_case_value).equals(prefCharCase)) {
+            text = text.toLowerCase();
+        } else if (getString(R.string.random_case_value).equals(prefCharCase)) {
+            if (randomBoolean) {
+                text = text.toUpperCase();
+            } else {
+                text = text.toLowerCase();
+            }
+        }
+        return text;
+    }
+
+    private void submitChoice(Button guessButton) {
         Log.i(TAG, "เลือกตอบ " + guessButton.getText().toString());
 
         mQuiz.addTotalGuesses();
